@@ -37,8 +37,14 @@ info "Homebrew 镜像源已配置（清华 TUNA）"
 # ============================================================
 # 2. Brew Bundle（安装所有包）
 # ============================================================
+# 预先添加第三方 tap（需要显式信任）
+brew tap asmvik/formulae 2>/dev/null || true
+brew tap jundot/omlx 2>/dev/null || true
+brew tap steipete/tap 2>/dev/null || true
+info "第三方 Tap 已添加"
+
 info "正在通过 Brewfile 安装软件包..."
-brew bundle --file="$DOTFILES_DIR/Brewfile"
+brew bundle --file="$DOTFILES_DIR/Brewfile" || warn "部分包安装失败，可稍后手动重试"
 
 # ============================================================
 # 3. Rust（通过 rustup）
