@@ -3,9 +3,9 @@
 # macOS 开发环境一键配置脚本
 # 用法: bash install.sh
 # ============================================================
-set -euo pipefail
+set -uo pipefail
 
-DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
+DOTFILES_DIR="${0:A:h}"
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
