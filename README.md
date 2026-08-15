@@ -1,53 +1,115 @@
 # Dotfiles
 
-macOS 开发环境一键配置，包含 zsh、CLI 工具、字体、GUI 应用的完整安装脚本。
+macOS 开发环境一键配置，包含 Shell、CLI 工具、终端、Git 多身份管理的完整自动化脚本。
 
 ## 快速开始
 
-```bash
+```zsh
 git clone git@github.com:YOUR_USERNAME/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 zsh setup.sh
 ```
 
-## 包含内容
+## 安装内容
 
-### CLI 工具
-bat, btop, eza, fd, ffmpeg, fnm, fzf, git, git-delta, go, lazygit, pnpm, ripgrep, tmux, uv, wget, yazi, zellij, zoxide
+`setup.sh` 会依次完成：
 
-### GUI 应用
-Ghostty, Cursor, VS Code, Docker Desktop, TablePlus, Bruno, iStat Menus, AppCleaner 等
+| 步骤 | 说明 |
+|------|------|
+| 1 | 安装 Homebrew + 配置清华镜像源 |
+| 2 | 通过 Brewfile 安装所有 CLI 工具、GUI 应用、字体 |
+| 3 | 安装 Rust（rustup） |
+| 4 | 配置 Go 环境 |
+| 5 | 安装 Zinit（zsh 插件管理器） |
+| 6 | 安装 Bun |
+| 7 | 通过 fnm 安装 Node.js v24 |
+| 8 | 符号链接 .zshrc + .p10k.zsh |
+| 9 | 链接 .gitconfig |
+| 10 | 链接 Ghostty 终端配置 |
+| 11 | 创建 ~/.zsh_secrets 密钥文件 |
 
-### Shell 环境
-- **Zsh** + **Powerlevel10k** 主题
-- **Zinit** 插件管理器
-- 插件：fast-syntax-highlighting, zsh-autosuggestions, zsh-completions, OMZ git
-- **fnm** 管理 Node.js，**pnpm** + **Bun** 包管理
+## Git 多身份 + SSH Key 配置
 
-### 字体
-JetBrains Mono Nerd, Maple Mono NF, Meslo LG Nerd
+```zsh
+zsh scripts/setup-identity.sh
+```
+
+交互式完成以下操作：
+
+1. 输入别名（如 GitHub 用户名 `qiyue`）
+2. 输入 Git 用户名、邮箱
+3. 输入 SSH Host（如 `github.com`）
+4. 选择密钥类型（默认 ed25519）
+
+脚本自动：
+- 生成密钥到 `~/.ssh/<别名>/id_ed25519`
+- 追加 `~/.ssh/config` Host 配置
+- 创建 `~/workspace/<别名>/` 工作目录
+- 写入 `.gitconfig-<别名>` 并配置 `includeIf`
+- 输出公钥，方便复制到平台
+
+在 `~/workspace/<别名>/` 下 clone 的项目会自动使用对应身份。
+
+## 目录结构
+
+```
+dotfiles/
+├── setup.sh                      # 一键安装入口
+├── scripts/setup-identity.sh     # 交互式 SSH + Git 身份配置
+├── git/.gitconfig                # Git 全局配置
+├── Brewfile                      # Homebrew 包清单
+├── ghostty/config                # Ghostty 终端配置
+├── zsh/.zshrc                    # Zsh 主配置
+├── zsh/.p10k.zsh                 # Powerlevel10k 主题
+├── zsh/.zsh_secrets.example      # 密钥模板
+├── zsh/.zsh_secrets              # 真实密钥（gitignored）
+├── .gitignore
+└── README.md
+```
 
 ## 敏感信息
 
 Token 和密钥存放在 `~/.zsh_secrets`（不纳入 git）。首次安装后请编辑：
 
-```bash
+```zsh
 vim ~/.zsh_secrets
 ```
 
 模板见 `zsh/.zsh_secrets.example`。
 
+## 包含的软件
+
+### CLI 工具
+bat, btop, eza, fd, ffmpeg, fnm, fzf, git, git-delta, go, lazygit, llama.cpp, pnpm, ripgrep, tmux, uv, wget, xcodegen, yazi, zellij, zoxide
+
+### GUI 应用
+Ghostty, Cursor, VS Code, Docker Desktop, TablePlus, Bruno, iStat Menus, AppCleaner, Macs Fan Control, itsycal
+
+### Shell 环境
+- Zsh + Powerlevel10k + Zinit
+- 插件：fast-syntax-highlighting, zsh-autosuggestions, zsh-completions, OMZ git
+
+### 语言 & 运行时
+- Rust（rustup）
+- Go（Homebrew）
+- Node.js v24（fnm）
+- Bun
+- pnpm
+
+### 字体
+JetBrains Mono Nerd, Maple Mono NF, Meslo LG Nerd
+
 ## 自定义
 
-- 修改 `Brewfile` 增删软件包
-- 修改 `zsh/.zshrc` 调整 shell 配置
-- 修改 `zsh/.p10k.zsh` 调整终端主题（或运行 `p10k configure`）
+- `Brewfile` — 增删软件包
+- `zsh/.zshrc` — Shell 配置
+- `zsh/.p10k.zsh` — 终端主题（或运行 `p10k configure`）
+- `ghostty/config` — 终端模拟器配置
+- `git/.gitconfig` — Git 全局设置
 
-## 更新
+## 同步更新
 
-本地修改配置后同步到仓库：
-
-```bash
+```zsh
 cd ~/dotfiles
-git add -A && git commit -m "update config" && git push
+git add -A && git commit -m "update" && git push
 ```
