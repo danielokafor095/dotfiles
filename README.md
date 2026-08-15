@@ -7,7 +7,7 @@ macOS 开发环境一键配置，包含 zsh、CLI 工具、字体、GUI 应用�
 ```bash
 git clone git@github.com:YOUR_USERNAME/dotfiles.git ~/dotfiles
 cd ~/dotfiles
-bash install.sh
+zsh install.sh
 ```
 
 ## 包含内容
