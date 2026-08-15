@@ -1,0 +1,27 @@
+[core]
+    pager = delta
+    symlinks = false
+    ignorecase = false
+
+[init]
+    defaultBranch = main
+
+[pull]
+    rebase = true
+
+[filter "lfs"]
+    process = git-lfs filter-process
+    required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true
+    side-by-side = true
+    line-numbers = true
+
+[merge]
+    conflictstyle = zdiff3

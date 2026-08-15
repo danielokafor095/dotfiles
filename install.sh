@@ -115,14 +115,21 @@ link_file "$DOTFILES_DIR/zsh/.zshrc" "$HOME/.zshrc"
 link_file "$DOTFILES_DIR/zsh/.p10k.zsh" "$HOME/.p10k.zsh"
 
 # ============================================================
-# 9. Ghostty 终端配置
+# 9. Git 配置
+# ============================================================
+link_file "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig"
+mkdir -p "$HOME/workspace"
+info "工作目录 ~/workspace 已就绪（用 setup-identity.sh 添加身份）"
+
+# ============================================================
+# 10. Ghostty 终端配置
 # ============================================================
 GHOSTTY_CONFIG_DIR="$HOME/Library/Application Support/com.mitchellh.ghostty"
 mkdir -p "$GHOSTTY_CONFIG_DIR"
 link_file "$DOTFILES_DIR/ghostty/config" "$GHOSTTY_CONFIG_DIR/config.ghostty"
 
 # ============================================================
-# 10. 密钥文件
+# 11. 密钥文件
 # ============================================================
 if [[ ! -f "$HOME/.zsh_secrets" ]]; then
   if [[ -f "$DOTFILES_DIR/zsh/.zsh_secrets" ]]; then
@@ -146,3 +153,4 @@ info "🎉 环境配置完成！"
 echo "  → 请重新打开终端，或执行: exec zsh"
 echo "  → 首次启动会自动下载 zsh 插件（需要网络）"
 echo "  → 别忘了编辑 ~/.zsh_secrets 填入你的 token"
+echo "  → 配置 Git 身份 + SSH Key: bash $DOTFILES_DIR/scripts/setup-identity.sh"
