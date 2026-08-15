@@ -37,6 +37,16 @@
       "command": "openInTerminal"
     },
     {
+      "key": "shift+cmd+k",
+      "command": "cursorai.action.generateInTerminal",
+      "when": "terminalFocus && terminalHasBeenCreated && !isGlass || terminalFocus && terminalProcessSupported && !isGlass || terminalHasBeenCreated && terminalPromptBarVisible && !isGlass || terminalProcessSupported && terminalPromptBarVisible && !isGlass"
+    },
+    {
+      "key": "cmd+k",
+      "command": "-cursorai.action.generateInTerminal",
+      "when": "terminalFocus && terminalHasBeenCreated && !isGlass || terminalFocus && terminalProcessSupported && !isGlass || terminalHasBeenCreated && terminalPromptBarVisible && !isGlass || terminalProcessSupported && terminalPromptBarVisible && !isGlass"
+    },
+    {
       "key": "ctrl+alt+cmd+enter",
       "command": "workbench.action.toggleMaximizedPanel"
     }

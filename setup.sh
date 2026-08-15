@@ -138,22 +138,28 @@ mkdir -p "$GHOSTTY_CONFIG_DIR"
 link_file "$DOTFILES_DIR/ghostty/config" "$GHOSTTY_CONFIG_DIR/config.ghostty"
 
 # ============================================================
-# 12. VSCode 配置
+# 12. VSCode / Cursor 共用配置
 # ============================================================
 VSCODE_DIR="$HOME/Library/Application Support/Code/User"
-mkdir -p "$VSCODE_DIR"
+CURSOR_DIR="$HOME/Library/Application Support/Cursor/User"
+mkdir -p "$VSCODE_DIR" "$CURSOR_DIR"
+
 link_file "$DOTFILES_DIR/vscode/settings.json" "$VSCODE_DIR/settings.json"
 link_file "$DOTFILES_DIR/vscode/keybindings.json" "$VSCODE_DIR/keybindings.json"
-info "VSCode 配置已链接"
+link_file "$DOTFILES_DIR/vscode/settings.json" "$CURSOR_DIR/settings.json"
+link_file "$DOTFILES_DIR/vscode/keybindings.json" "$CURSOR_DIR/keybindings.json"
+info "VSCode / Cursor 配置已链接（共用一套）"
 
-# ============================================================
-# 13. Cursor 配置
-# ============================================================
-CURSOR_DIR="$HOME/Library/Application Support/Cursor/User"
-mkdir -p "$CURSOR_DIR"
-link_file "$DOTFILES_DIR/cursor/settings.json" "$CURSOR_DIR/settings.json"
-link_file "$DOTFILES_DIR/cursor/keybindings.json" "$CURSOR_DIR/keybindings.json"
-info "Cursor 配置已链接"
+# 安装 VSCode 插件
+if command -v code &>/dev/null; then
+  info "正在安装 VSCode 插件..."
+  while IFS= read -r ext; do
+    code --install-extension "$ext" --force 2>/dev/null
+  done < "$DOTFILES_DIR/vscode/extensions.txt"
+  info "VSCode 插件安装完成"
+else
+  warn "VSCode CLI 未找到，跳过插件安装（请先打开 VSCode 安装 shell command）"
+fi
 
 # ============================================================
 # 14. Yazi 文件管理器配置
