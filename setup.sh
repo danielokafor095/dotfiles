@@ -39,7 +39,6 @@ info "Homebrew 镜像源已配置（清华 TUNA）"
 # ============================================================
 # 预先添加第三方 tap（需要显式信任）
 brew tap asmvik/formulae 2>/dev/null || true
-
 brew tap steipete/tap 2>/dev/null || true
 info "第三方 Tap 已添加"
 

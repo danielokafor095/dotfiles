@@ -5,7 +5,6 @@
 
 # 第三方 Tap
 tap "asmvik/formulae"
-
 tap "steipete/tap"
 
 # CLI 工具
@@ -34,7 +33,6 @@ brew "zoxide"         # cd 替代，智能跳转
 # 第三方 Tap 的包
 brew "asmvik/formulae/skhd"   # 快捷键管理
 
-
 # AI / LLM
 brew "llama.cpp"      # 本地 LLM 推理
 
@@ -44,7 +42,7 @@ cask "bruno"                         # API 客户端
 cask "codex"                         # AI 编码
 cask "codexbar"                      # 菜单栏工具
 cask "cursor"                        # AI 编辑器
-cask "docker-desktop"                # Docker
+# docker-desktop 需要多次输入密码，建议手动安装: brew install --cask docker-desktop
 cask "ghostty"                       # 终端模拟器
 cask "istat-menus@6"                 # 系统监控菜单栏
 cask "itsycal"                       # 菜单栏日历
