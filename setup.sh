@@ -122,14 +122,23 @@ mkdir -p "$HOME/workspace"
 info "工作目录 ~/workspace 已就绪（用 setup-identity.sh 添加身份）"
 
 # ============================================================
-# 10. Ghostty 终端配置
+# 10. Claude Code 配置
+# ============================================================
+CLAUDE_DIR="$HOME/.claude"
+mkdir -p "$CLAUDE_DIR"
+link_file "$DOTFILES_DIR/claude/settings.json" "$CLAUDE_DIR/settings.json"
+link_file "$DOTFILES_DIR/claude/CLAUDE.md" "$HOME/CLAUDE.md"
+info "Claude Code 配置已链接（插件会在首次启动时自动安装）"
+
+# ============================================================
+# 11. Ghostty 终端配置
 # ============================================================
 GHOSTTY_CONFIG_DIR="$HOME/Library/Application Support/com.mitchellh.ghostty"
 mkdir -p "$GHOSTTY_CONFIG_DIR"
 link_file "$DOTFILES_DIR/ghostty/config" "$GHOSTTY_CONFIG_DIR/config.ghostty"
 
 # ============================================================
-# 11. 密钥文件
+# 12. 密钥文件
 # ============================================================
 if [[ ! -f "$HOME/.zsh_secrets" ]]; then
   if [[ -f "$DOTFILES_DIR/zsh/.zsh_secrets" ]]; then
