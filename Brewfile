@@ -5,7 +5,7 @@
 
 # 第三方 Tap
 tap "asmvik/formulae"
-tap "jundot/omlx"
+
 tap "steipete/tap"
 
 # CLI 工具
@@ -33,7 +33,7 @@ brew "zoxide"         # cd 替代，智能跳转
 
 # 第三方 Tap 的包
 brew "asmvik/formulae/skhd"   # 快捷键管理
-brew "jundot/omlx/omlx"      # omlx 工具
+
 
 # AI / LLM
 brew "llama.cpp"      # 本地 LLM 推理
