@@ -153,9 +153,9 @@ info "VSCode / Cursor 配置已链接（共用一套）"
 # 安装 VSCode 插件
 if command -v code &>/dev/null; then
   info "正在安装 VSCode 插件..."
-  while IFS= read -r ext; do
+  grep '"[a-zA-Z]' "$DOTFILES_DIR/vscode/extensions.json" | tr -d ' ",' | while IFS= read -r ext; do
     code --install-extension "$ext" --force 2>/dev/null
-  done < "$DOTFILES_DIR/vscode/extensions.txt"
+  done
   info "VSCode 插件安装完成"
 else
   warn "VSCode CLI 未找到，跳过插件安装（请先打开 VSCode 安装 shell command）"
