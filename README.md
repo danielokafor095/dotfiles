@@ -1,6 +1,6 @@
 # Dotfiles
 
-macOS 开发环境一键配置，包含 Shell、CLI 工具、终端、Git 多身份管理的完整自动化脚本。
+macOS 开发环境一键配置，包含 Shell、终端、编辑器、CLI 工具、Git 多身份管理的完整自动化脚本。
 
 ## 快速开始
 
@@ -10,7 +10,7 @@ cd ~/dotfiles
 zsh setup.sh
 ```
 
-## 安装内容
+## 安装流程
 
 `setup.sh` 会依次完成：
 
@@ -25,8 +25,12 @@ zsh setup.sh
 | 7 | 通过 fnm 安装 Node.js v24 |
 | 8 | 符号链接 .zshrc + .p10k.zsh |
 | 9 | 链接 .gitconfig |
-| 10 | 链接 Ghostty 终端配置 |
-| 11 | 创建 ~/.zsh_secrets 密钥文件 |
+| 10 | 链接 Claude Code 配置 |
+| 11 | 链接 Ghostty 终端配置 |
+| 12 | 链接 VSCode / Cursor 配置 + 安装插件 |
+| 13 | 链接 Yazi 文件管理器配置 |
+| 14 | 链接 Zellij 终端复用配置 |
+| 15 | 创建 ~/.zsh_secrets 密钥文件 |
 
 ## Git 多身份 + SSH Key 配置
 
@@ -34,8 +38,7 @@ zsh setup.sh
 zsh scripts/setup-identity.sh
 ```
 
-交互式完成以下操作：
-
+交互式完成：
 1. 输入别名（如 GitHub 用户名 `qiyue`）
 2. 输入 Git 用户名、邮箱
 3. 输入 SSH Host（如 `github.com`）
@@ -56,13 +59,19 @@ zsh scripts/setup-identity.sh
 dotfiles/
 ├── setup.sh                      # 一键安装入口
 ├── scripts/setup-identity.sh     # 交互式 SSH + Git 身份配置
-├── git/.gitconfig                # Git 全局配置
 ├── Brewfile                      # Homebrew 包清单
-├── ghostty/config                # Ghostty 终端配置
+├── git/.gitconfig                # Git 全局配置
 ├── zsh/.zshrc                    # Zsh 主配置
 ├── zsh/.p10k.zsh                 # Powerlevel10k 主题
 ├── zsh/.zsh_secrets.example      # 密钥模板
-├── zsh/.zsh_secrets              # 真实密钥（gitignored）
+├── ghostty/config                # Ghostty 终端配置
+├── claude/settings.json          # Claude Code 设置
+├── claude/CLAUDE.md              # Claude Code 全局指令
+├── vscode/settings.json          # VSCode / Cursor 编辑器设置
+├── vscode/keybindings.json       # VSCode / Cursor 快捷键
+├── vscode/extensions.json        # VSCode 插件清单
+├── yazi/yazi.toml                # Yazi 文件管理器
+├── zellij/config.kdl             # Zellij 终端复用
 ├── .gitignore
 └── README.md
 ```
@@ -93,19 +102,29 @@ Ghostty, Cursor, VS Code, Docker Desktop, TablePlus, Bruno, iStat Menus, AppClea
 - Rust（rustup）
 - Go（Homebrew）
 - Node.js v24（fnm）
-- Bun
-- pnpm
+- Bun、pnpm
+
+### 编辑器
+- VSCode / Cursor（共用一套 settings + keybindings）
+- 38 个插件自动安装
 
 ### 字体
 JetBrains Mono Nerd, Maple Mono NF, Meslo LG Nerd
 
 ## 自定义
 
-- `Brewfile` — 增删软件包
-- `zsh/.zshrc` — Shell 配置
-- `zsh/.p10k.zsh` — 终端主题（或运行 `p10k configure`）
-- `ghostty/config` — 终端模拟器配置
-- `git/.gitconfig` — Git 全局设置
+| 文件 | 用途 |
+|------|------|
+| `Brewfile` | 增删软件包 |
+| `zsh/.zshrc` | Shell 配置 |
+| `zsh/.p10k.zsh` | 终端主题（或 `p10k configure`） |
+| `ghostty/config` | 终端模拟器 |
+| `vscode/settings.json` | 编辑器设置 |
+| `vscode/keybindings.json` | 编辑器快捷键 |
+| `vscode/extensions.json` | 插件清单 |
+| `git/.gitconfig` | Git 全局设置 |
+| `yazi/yazi.toml` | 文件管理器 |
+| `zellij/config.kdl` | 终端复用 |
 
 ## 同步更新
 
