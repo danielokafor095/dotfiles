@@ -138,7 +138,39 @@ mkdir -p "$GHOSTTY_CONFIG_DIR"
 link_file "$DOTFILES_DIR/ghostty/config" "$GHOSTTY_CONFIG_DIR/config.ghostty"
 
 # ============================================================
-# 12. 密钥文件
+# 12. VSCode 配置
+# ============================================================
+VSCODE_DIR="$HOME/Library/Application Support/Code/User"
+mkdir -p "$VSCODE_DIR"
+link_file "$DOTFILES_DIR/vscode/settings.json" "$VSCODE_DIR/settings.json"
+link_file "$DOTFILES_DIR/vscode/keybindings.json" "$VSCODE_DIR/keybindings.json"
+info "VSCode 配置已链接"
+
+# ============================================================
+# 13. Cursor 配置
+# ============================================================
+CURSOR_DIR="$HOME/Library/Application Support/Cursor/User"
+mkdir -p "$CURSOR_DIR"
+link_file "$DOTFILES_DIR/cursor/settings.json" "$CURSOR_DIR/settings.json"
+link_file "$DOTFILES_DIR/cursor/keybindings.json" "$CURSOR_DIR/keybindings.json"
+info "Cursor 配置已链接"
+
+# ============================================================
+# 14. Yazi 文件管理器配置
+# ============================================================
+mkdir -p "$HOME/.config/yazi"
+link_file "$DOTFILES_DIR/yazi/yazi.toml" "$HOME/.config/yazi/yazi.toml"
+info "Yazi 配置已链接"
+
+# ============================================================
+# 15. Zellij 终端复用配置
+# ============================================================
+mkdir -p "$HOME/.config/zellij"
+link_file "$DOTFILES_DIR/zellij/config.kdl" "$HOME/.config/zellij/config.kdl"
+info "Zellij 配置已链接"
+
+# ============================================================
+# 16. 密钥文件
 # ============================================================
 if [[ ! -f "$HOME/.zsh_secrets" ]]; then
   if [[ -f "$DOTFILES_DIR/zsh/.zsh_secrets" ]]; then
