@@ -38,7 +38,7 @@ info "Homebrew 镜像源已配置（清华 TUNA）"
 # 2. Brew Bundle（安装所有包）
 # ============================================================
 info "正在通过 Brewfile 安装软件包..."
-brew bundle --file="$DOTFILES_DIR/Brewfile" --no-lock
+brew bundle --file="$DOTFILES_DIR/Brewfile"
 
 # ============================================================
 # 3. Rust（通过 rustup）
