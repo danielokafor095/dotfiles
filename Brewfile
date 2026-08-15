@@ -42,7 +42,7 @@ cask "bruno"                         # API 客户端
 cask "codex"                         # AI 编码
 cask "codexbar"                      # 菜单栏工具
 cask "cursor"                        # AI 编辑器
-# docker-desktop 需要多次输入密码，建议手动安装: brew install --cask docker-desktop
+cask "docker-desktop"                # Docker
 cask "ghostty"                       # 终端模拟器
 cask "istat-menus@6"                 # 系统监控菜单栏
 cask "itsycal"                       # 菜单栏日历

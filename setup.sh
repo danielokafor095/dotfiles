@@ -42,8 +42,18 @@ brew tap asmvik/formulae 2>/dev/null || true
 brew tap steipete/tap 2>/dev/null || true
 info "第三方 Tap 已添加"
 
+# 预缓存 sudo 密码（部分 cask 安装需要权限）
+info "部分应用安装需要管理员权限，请输入密码..."
+sudo -v
+# 后台保持 sudo 会话有效
+while true; do sudo -n true; sleep 50; done 2>/dev/null &
+SUDO_PID=$!
+
 info "正在通过 Brewfile 安装软件包..."
 brew bundle --file="$DOTFILES_DIR/Brewfile" || warn "部分包安装失败，可稍后手动重试"
+
+# 结束 sudo 保活进程
+kill "$SUDO_PID" 2>/dev/null
 
 # ============================================================
 # 3. Rust（通过 rustup）
