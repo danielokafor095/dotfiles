@@ -94,7 +94,7 @@ fi
 # ============================================================
 if ! command -v bun &>/dev/null; then
   info "正在安装 Bun..."
-  curl -fsSL https://bun.sh/install | zsh
+  curl -fsSL https://bun.sh/install | bash
 else
   info "Bun 已安装"
 fi
@@ -102,7 +102,7 @@ fi
 # ============================================================
 # 7. Node.js（通过 fnm）
 # ============================================================
-eval "$(fnm env --shell zsh)"
+eval "$(fnm env --shell bash)"
 if ! fnm list | grep -q "v24"; then
   info "正在通过 fnm 安装 Node.js v24..."
   fnm install 24
