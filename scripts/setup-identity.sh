@@ -4,7 +4,7 @@
 #
 # 功能：
 #   1. 生成 SSH 密钥对，存放在 ~/.ssh/<别名>/
-#   2. 创建 ~/workspace/<别名>/ 工作目录
+#   2. 创建 ~/Workspace/<别名>/ 工作目录
 #   3. 自动配置 .gitconfig includeIf 条件
 #   4. 自动追加 ~/.ssh/config Host 配置
 #   5. 可选设为全局默认身份
@@ -26,7 +26,7 @@ info() { echo -e "${GREEN}[✓]${NC} $1"; }
 warn() { echo -e "${YELLOW}[!]${NC} $1"; }
 ask() { echo -e "${CYAN}[?]${NC} $1"; }
 
-WORKSPACE_DIR="$HOME/workspace"
+WORKSPACE_DIR="$HOME/Workspace"
 SSH_DIR="$HOME/.ssh"
 GITCONFIG="$HOME/.gitconfig"
 GITCONFIG_DEFAULT="$HOME/.gitconfig-default"
@@ -188,7 +188,7 @@ echo "  SSH Host:    $SSH_HOST"
 echo "  Host 别名:   $HOST_ALIAS"
 echo "  密钥类型:    $KEY_TYPE"
 echo "  密钥路径:    ~/.ssh/$ALIAS/id_$KEY_TYPE"
-echo "  工作目录:    ~/workspace/$ALIAS/"
+echo "  工作目录:    ~/Workspace/$ALIAS/"
 if [[ "$SET_DEFAULT" =~ ^[Yy] ]]; then
   echo "  全局默认:    ✓ 是（替换 ${CURRENT_DEFAULT:-无}）"
 else
@@ -239,7 +239,7 @@ EOF
 fi
 
 # ============================================================
-# 3. 创建 workspace 目录
+# 3. 创建 Workspace 目录
 # ============================================================
 WORK_DIR="$WORKSPACE_DIR/$ALIAS"
 mkdir -p "$WORK_DIR"

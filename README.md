@@ -23,14 +23,13 @@ cd ~/dotfiles
 | 5 | 安装 Zinit（zsh 插件管理器） |
 | 6 | 安装 Bun |
 | 7 | 通过 fnm 安装 Node.js v24 |
-| 8 | 符号链接 .zshrc + .p10k.zsh |
-| 9 | 链接 .gitconfig |
-| 10 | 链接 Claude Code 配置 |
-| 11 | 链接 Ghostty 终端配置 |
-| 12 | 链接 VSCode / Cursor 配置 + 安装插件 |
-| 13 | 链接 Yazi 文件管理器配置 |
-| 14 | 链接 Zellij 终端复用配置 |
-| 15 | 创建 ~/.zsh_secrets 密钥文件 |
+| 8 | 复制 .zshrc + .p10k.zsh |
+| 9 | 复制 .gitconfig |
+| 10 | 复制 Claude Code 配置 |
+| 11 | 复制 Ghostty 终端配置 |
+| 12 | 复制 Yazi 文件管理器配置 |
+| 13 | 复制 Zellij 终端复用配置 |
+| 14 | 创建 ~/.zsh_secrets 密钥文件 |
 
 ## Git 多身份 + SSH Key 配置
 
@@ -47,11 +46,11 @@ cd ~/dotfiles
 脚本自动：
 - 生成密钥到 `~/.ssh/<别名>/id_ed25519`
 - 追加 `~/.ssh/config` Host 配置
-- 创建 `~/workspace/<别名>/` 工作目录
+- 创建 `~/Workspace/<别名>/` 工作目录
 - 写入 `.gitconfig-<别名>` 并配置 `includeIf`
 - 输出公钥，方便复制到平台
 
-在 `~/workspace/<别名>/` 下 clone 的项目会自动使用对应身份。
+在 `~/Workspace/<别名>/` 下 clone 的项目会自动使用对应身份。
 
 ## 目录结构
 
@@ -59,6 +58,7 @@ cd ~/dotfiles
 dotfiles/
 ├── setup.sh                      # 一键安装入口
 ├── scripts/setup-identity.sh     # 交互式 SSH + Git 身份配置
+├── scripts/sync-back.sh          # 反向同步（本机 → 仓库）
 ├── Brewfile                      # Homebrew 包清单
 ├── git/.gitconfig                # Git 全局配置
 ├── zsh/.zshrc                    # Zsh 主配置
@@ -128,7 +128,17 @@ JetBrains Mono Nerd, Maple Mono NF, Meslo LG Nerd
 
 ## 同步更新
 
+当本机配置有修改，想同步回仓库时：
+
 ```zsh
 cd ~/dotfiles
+./scripts/sync-back.sh        # 交互式逐个确认
+./scripts/sync-back.sh --all  # 同步所有变化（不逐个确认）
+./scripts/sync-back.sh --dry  # 仅查看差异，不执行操作
+```
+
+确认后提交：
+
+```zsh
 git add -A && git commit -m "update" && git push
 ```

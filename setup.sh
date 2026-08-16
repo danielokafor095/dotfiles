@@ -112,9 +112,9 @@ else
 fi
 
 # ============================================================
-# 8. 符号链接配置文件
+# 8. 复制配置文件（独立副本，避免仓库状态变化）
 # ============================================================
-link_file() {
+copy_file() {
   local src="$1" dst="$2"
   if [[ -L "$dst" ]]; then
     rm "$dst"
@@ -122,50 +122,52 @@ link_file() {
     mv "$dst" "${dst}.backup.$(date +%s)"
     warn "已备份 $dst"
   fi
-  ln -sf "$src" "$dst"
-  info "已链接 $dst → $src"
+  cp "$src" "$dst"
+  info "已复制 $src → $dst"
 }
 
-link_file "$DOTFILES_DIR/zsh/.zshrc" "$HOME/.zshrc"
-link_file "$DOTFILES_DIR/zsh/.p10k.zsh" "$HOME/.p10k.zsh"
+copy_file "$DOTFILES_DIR/zsh/.zshrc" "$HOME/.zshrc"
+copy_file "$DOTFILES_DIR/zsh/.p10k.zsh" "$HOME/.p10k.zsh"
 
 # ============================================================
 # 9. Git 配置
 # ============================================================
-link_file "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig"
-mkdir -p "$HOME/workspace"
-info "工作目录 ~/workspace 已就绪（用 setup-identity.sh 添加身份）"
+copy_file "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig"
+mkdir -p "$HOME/Workspace"
+info "工作目录 ~/Workspace 已就绪（用 setup-identity.sh 添加身份）"
 
 # ============================================================
 # 10. Claude Code 配置
 # ============================================================
 CLAUDE_DIR="$HOME/.claude"
 mkdir -p "$CLAUDE_DIR"
-link_file "$DOTFILES_DIR/claude/settings.json" "$CLAUDE_DIR/settings.json"
-link_file "$DOTFILES_DIR/claude/CLAUDE.md" "$HOME/CLAUDE.md"
-info "Claude Code 配置已链接（插件会在首次启动时自动安装）"
+copy_file "$DOTFILES_DIR/claude/settings.json" "$CLAUDE_DIR/settings.json"
+copy_file "$DOTFILES_DIR/claude/CLAUDE.md" "$HOME/CLAUDE.md"
+info "Claude Code 配置已复制（插件会在首次启动时自动安装）"
 
 # ============================================================
 # 11. Ghostty 终端配置
 # ============================================================
 GHOSTTY_CONFIG_DIR="$HOME/Library/Application Support/com.mitchellh.ghostty"
 mkdir -p "$GHOSTTY_CONFIG_DIR"
-link_file "$DOTFILES_DIR/ghostty/config" "$GHOSTTY_CONFIG_DIR/config.ghostty"
+copy_file "$DOTFILES_DIR/ghostty/config" "$GHOSTTY_CONFIG_DIR/config.ghostty"
+info "Ghostty 终端配置已复制"
+
 
 
 # ============================================================
 # 12. Yazi 文件管理器配置
 # ============================================================
 mkdir -p "$HOME/.config/yazi"
-link_file "$DOTFILES_DIR/yazi/yazi.toml" "$HOME/.config/yazi/yazi.toml"
-info "Yazi 配置已链接"
+copy_file "$DOTFILES_DIR/yazi/yazi.toml" "$HOME/.config/yazi/yazi.toml"
+info "Yazi 配置已复制"
 
 # ============================================================
 # 13. Zellij 终端复用配置
 # ============================================================
 mkdir -p "$HOME/.config/zellij"
-link_file "$DOTFILES_DIR/zellij/config.kdl" "$HOME/.config/zellij/config.kdl"
-info "Zellij 配置已链接"
+copy_file "$DOTFILES_DIR/zellij/config.kdl" "$HOME/.config/zellij/config.kdl"
+info "Zellij 配置已复制"
 
 # ============================================================
 # 14. 密钥文件
