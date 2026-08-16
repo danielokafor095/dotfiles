@@ -152,46 +152,23 @@ GHOSTTY_CONFIG_DIR="$HOME/Library/Application Support/com.mitchellh.ghostty"
 mkdir -p "$GHOSTTY_CONFIG_DIR"
 link_file "$DOTFILES_DIR/ghostty/config" "$GHOSTTY_CONFIG_DIR/config.ghostty"
 
-# ============================================================
-# 12. VSCode / Cursor 共用配置
-# ============================================================
-VSCODE_DIR="$HOME/Library/Application Support/Code/User"
-CURSOR_DIR="$HOME/Library/Application Support/Cursor/User"
-mkdir -p "$VSCODE_DIR" "$CURSOR_DIR"
-
-link_file "$DOTFILES_DIR/vscode/settings.json" "$VSCODE_DIR/settings.json"
-link_file "$DOTFILES_DIR/vscode/keybindings.json" "$VSCODE_DIR/keybindings.json"
-link_file "$DOTFILES_DIR/vscode/settings.json" "$CURSOR_DIR/settings.json"
-link_file "$DOTFILES_DIR/vscode/keybindings.json" "$CURSOR_DIR/keybindings.json"
-info "VSCode / Cursor 配置已链接（共用一套）"
-
-# 安装 VSCode 插件
-if command -v code &>/dev/null; then
-  info "正在安装 VSCode 插件..."
-  grep '"[a-zA-Z]' "$DOTFILES_DIR/vscode/extensions.json" | tr -d ' ",' | while IFS= read -r ext; do
-    code --install-extension "$ext" --force 2>/dev/null
-  done
-  info "VSCode 插件安装完成"
-else
-  warn "VSCode CLI 未找到，跳过插件安装（请先打开 VSCode 安装 shell command）"
-fi
 
 # ============================================================
-# 14. Yazi 文件管理器配置
+# 12. Yazi 文件管理器配置
 # ============================================================
 mkdir -p "$HOME/.config/yazi"
 link_file "$DOTFILES_DIR/yazi/yazi.toml" "$HOME/.config/yazi/yazi.toml"
 info "Yazi 配置已链接"
 
 # ============================================================
-# 15. Zellij 终端复用配置
+# 13. Zellij 终端复用配置
 # ============================================================
 mkdir -p "$HOME/.config/zellij"
 link_file "$DOTFILES_DIR/zellij/config.kdl" "$HOME/.config/zellij/config.kdl"
 info "Zellij 配置已链接"
 
 # ============================================================
-# 16. 密钥文件
+# 14. 密钥文件
 # ============================================================
 if [[ ! -f "$HOME/.zsh_secrets" ]]; then
   if [[ -f "$DOTFILES_DIR/zsh/.zsh_secrets" ]]; then
@@ -216,3 +193,4 @@ echo "  → 请重新打开终端，或执行: exec zsh"
 echo "  → 首次启动会自动下载 zsh 插件（需要网络）"
 echo "  → 别忘了编辑 ~/.zsh_secrets 填入你的 token"
 echo "  → 配置 Git 身份 + SSH Key: $DOTFILES_DIR/scripts/setup-identity.sh"
+echo "  → VSCode / Cursor 配置请使用编辑器内置 Settings Sync 恢复"

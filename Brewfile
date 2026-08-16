@@ -16,6 +16,7 @@ brew "fd"             # find 替代
 brew "ffmpeg"         # 音视频处理
 brew "fnm"            # Node.js 版本管理
 brew "fzf"            # 模糊搜索
+brew "gh"             # GitHub CLI
 brew "git"            # 版本控制
 brew "git-delta"      # git diff 美化
 brew "go"             # Go 语言
