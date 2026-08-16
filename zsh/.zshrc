@@ -48,14 +48,6 @@ path=(
 typeset -U path
 
 # ============================================================
-# CC CLI 环境变量（非敏感部分）
-# ============================================================
-export CC_AUTO_CLEAN_SKILLS=1
-export CC_SKILLS_WHITELIST="find-skills,nameit"
-export CC_AUTO_CLEAN_HOOKS=1
-export CC_SYNC_CLAUDE=1
-
-# ============================================================
 # CLI 工具初始化
 # ============================================================
 eval "$(zoxide init zsh)"
@@ -96,7 +88,6 @@ alias cat="bat --paging=never"
 # Aliases — 个人 & 工作
 # ============================================================
 alias w2r="w2 restart"
-alias ccs="cloudcli-ssh"
 alias ccd="claude --dangerously-skip-permissions --effort max"
 
 # ============================================================

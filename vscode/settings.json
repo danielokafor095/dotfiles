@@ -198,4 +198,7 @@
   "biome.suggestInstallingGlobally": false,
   "explorer.confirmPasteNative": false,
   "update.showReleaseNotes": false,
+  "window.autoDetectColorScheme": false,
+  "workbench.preferredLightColorTheme": "Dark Modern",
+  "workbench.colorTheme": "Dark Modern",
 }
