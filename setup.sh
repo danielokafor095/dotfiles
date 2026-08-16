@@ -137,13 +137,16 @@ mkdir -p "$HOME/Workspace"
 info "工作目录 ~/Workspace 已就绪（用 setup-identity.sh 添加身份）"
 
 # ============================================================
-# 10. Claude Code 配置
+# 10. Agents 配置
 # ============================================================
 CLAUDE_DIR="$HOME/.claude"
 mkdir -p "$CLAUDE_DIR"
 copy_file "$DOTFILES_DIR/claude/settings.json" "$CLAUDE_DIR/settings.json"
-copy_file "$DOTFILES_DIR/claude/CLAUDE.md" "$HOME/CLAUDE.md"
-info "Claude Code 配置已复制（插件会在首次启动时自动安装）"
+copy_file "$DOTFILES_DIR/agents/AGENTS.md" "$HOME/AGENTS.md"
+# 创建 CLAUDE.md -> AGENTS.md 的符号链接，两个路径指向同一文件
+rm -f "$HOME/CLAUDE.md"
+ln -s "$HOME/AGENTS.md" "$HOME/CLAUDE.md"
+info "Agents 配置已部署，CLAUDE.md 已链接到 AGENTS.md"
 
 # ============================================================
 # 11. Ghostty 终端配置
