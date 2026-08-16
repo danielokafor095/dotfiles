@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 # ============================================================
 # macOS 开发环境一键配置脚本
-# 用法: bash install.sh
+# 用法: ./setup.sh
 # ============================================================
 set -uo pipefail
 
@@ -94,7 +94,7 @@ fi
 # ============================================================
 if ! command -v bun &>/dev/null; then
   info "正在安装 Bun..."
-  curl -fsSL https://bun.sh/install | bash
+  curl -fsSL https://bun.sh/install | zsh
 else
   info "Bun 已安装"
 fi
@@ -102,7 +102,7 @@ fi
 # ============================================================
 # 7. Node.js（通过 fnm）
 # ============================================================
-eval "$(fnm env --shell bash)"
+eval "$(fnm env --shell zsh)"
 if ! fnm list | grep -q "v24"; then
   info "正在通过 fnm 安装 Node.js v24..."
   fnm install 24
@@ -215,4 +215,4 @@ info "🎉 环境配置完成！"
 echo "  → 请重新打开终端，或执行: exec zsh"
 echo "  → 首次启动会自动下载 zsh 插件（需要网络）"
 echo "  → 别忘了编辑 ~/.zsh_secrets 填入你的 token"
-echo "  → 配置 Git 身份 + SSH Key: bash $DOTFILES_DIR/scripts/setup-identity.sh"
+echo "  → 配置 Git 身份 + SSH Key: $DOTFILES_DIR/scripts/setup-identity.sh"
