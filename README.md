@@ -25,7 +25,7 @@ cd ~/dotfiles
 | 7 | 通过 fnm 安装 Node.js v24 |
 | 8 | 复制 .zshrc + .p10k.zsh |
 | 9 | 复制 .gitconfig |
-| 10 | 复制 Claude Code 配置 |
+| 10 | 复制 Agents 配置（AGENTS.md + CLAUDE.md 软链） |
 | 11 | 复制 Ghostty 终端配置 |
 | 12 | 复制 Yazi 文件管理器配置 |
 | 13 | 复制 Zellij 终端复用配置 |
@@ -65,8 +65,8 @@ dotfiles/
 ├── zsh/.p10k.zsh                 # Powerlevel10k 主题
 ├── zsh/.zsh_secrets.example      # 密钥模板
 ├── ghostty/config                # Ghostty 终端配置
+├── agents/AGENTS.md              # 全局 Agent 指令（权威源）
 ├── claude/settings.json          # Claude Code 设置
-├── claude/CLAUDE.md              # Claude Code 全局指令
 ├── vscode/settings.json          # VSCode / Cursor 编辑器设置
 ├── vscode/keybindings.json       # VSCode / Cursor 快捷键
 ├── vscode/extensions.json        # VSCode 插件清单
@@ -125,6 +125,7 @@ JetBrains Mono Nerd, Maple Mono NF, Meslo LG Nerd
 | `git/.gitconfig` | Git 全局设置 |
 | `yazi/yazi.toml` | 文件管理器 |
 | `zellij/config.kdl` | 终端复用 |
+| `agents/AGENTS.md` | 全局 Agent 指令（本机 `~/CLAUDE.md` 为其软链） |
 
 ## 同步更新
 
