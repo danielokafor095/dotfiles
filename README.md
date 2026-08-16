@@ -7,7 +7,7 @@ macOS 开发环境一键配置，包含 Shell、终端、编辑器、CLI 工具�
 ```zsh
 git clone git@github.com:YOUR_USERNAME/dotfiles.git ~/dotfiles
 cd ~/dotfiles
-zsh setup.sh
+./setup.sh
 ```
 
 ## 安装流程
@@ -35,7 +35,7 @@ zsh setup.sh
 ## Git 多身份 + SSH Key 配置
 
 ```zsh
-zsh scripts/setup-identity.sh
+./scripts/setup-identity.sh
 ```
 
 交互式完成：

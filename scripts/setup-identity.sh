@@ -86,8 +86,8 @@ if [[ "${1:-}" == "--set-default" ]]; then
     echo "可用的身份："
     for f in "$HOME"/.gitconfig-*; do
       [[ "$f" == *"-default" ]] && continue
-      local name="${f##*/.gitconfig-}"
-      local current_default=$(get_current_default)
+      name="${f##*/.gitconfig-}"
+      current_default=$(get_current_default)
       if [[ "$name" == "$current_default" ]]; then
         echo "  * $name （当前默认）"
       else
@@ -111,26 +111,26 @@ echo ""
 
 # 别名
 ask "请输入别名（通常用平台用户名，如 github 用户名）："
-read -rp "  别名: " ALIAS
+printf "  别名: "; read -r ALIAS
 if [[ -z "$ALIAS" ]]; then
   echo "错误：别名不能为空"; exit 1
 fi
 
 # Git 用户名
 ask "请输入 Git 用户名（提交时显示的名称）："
-read -rp "  用户名 [$ALIAS]: " GIT_NAME
+printf "  用户名 [$ALIAS]: "; read -r GIT_NAME
 GIT_NAME="${GIT_NAME:-$ALIAS}"
 
 # Git 邮箱
 ask "请输入 Git 邮箱："
-read -rp "  邮箱: " GIT_EMAIL
+printf "  邮箱: "; read -r GIT_EMAIL
 if [[ -z "$GIT_EMAIL" ]]; then
   echo "错误：邮箱不能为空"; exit 1
 fi
 
 # SSH Host
 ask "请输入 SSH Host 地址（如 github.com、gitlab.example.com）："
-read -rp "  Host: " SSH_HOST
+printf "  Host: "; read -r SSH_HOST
 if [[ -z "$SSH_HOST" ]]; then
   echo "错误：Host 不能为空"; exit 1
 fi
@@ -141,7 +141,7 @@ if [[ "$SSH_HOST" == "github.com" && "$ALIAS" != "github" ]]; then
   DEFAULT_HOST_ALIAS="github.com-${ALIAS}"
 fi
 ask "SSH Host 别名（用于 git remote，多账号时可区分）："
-read -rp "  Host 别名 [$DEFAULT_HOST_ALIAS]: " HOST_ALIAS
+printf "  Host 别名 [$DEFAULT_HOST_ALIAS]: "; read -r HOST_ALIAS
 HOST_ALIAS="${HOST_ALIAS:-$DEFAULT_HOST_ALIAS}"
 
 # 密钥类型
@@ -151,7 +151,7 @@ echo "  1) ed25519（推荐，默认）"
 echo "  2) rsa（4096 位）"
 echo "  3) ecdsa（256 位）"
 echo "  4) ed25519-sk（硬件密钥）"
-read -rp "  选择 [1]: " KEY_CHOICE
+printf "  选择 [1]: "; read -r KEY_CHOICE
 case "${KEY_CHOICE:-1}" in
   1) KEY_TYPE="ed25519" ;;
   2) KEY_TYPE="rsa"; KEY_BITS="-b 4096" ;;
@@ -167,11 +167,11 @@ CURRENT_DEFAULT=$(get_current_default)
 if [[ -n "$CURRENT_DEFAULT" ]]; then
   ask "当前全局默认身份: $CURRENT_DEFAULT"
   ask "是否将 $ALIAS 切换为新的全局默认？"
-  read -rp "  切换默认 [y/N]: " SET_DEFAULT
+  printf "  切换默认 [y/N]: "; read -r SET_DEFAULT
   SET_DEFAULT="${SET_DEFAULT:-N}"
 else
   ask "尚未配置全局默认身份，是否将 $ALIAS 设为默认？"
-  read -rp "  设为默认 [Y/n]: " SET_DEFAULT
+  printf "  设为默认 [Y/n]: "; read -r SET_DEFAULT
   SET_DEFAULT="${SET_DEFAULT:-Y}"
 fi
 
@@ -195,7 +195,7 @@ else
 fi
 echo "──────────────────────────────"
 echo ""
-read -rp "确认配置？[Y/n] " CONFIRM
+printf "确认配置？[Y/n] "; read -r CONFIRM
 if [[ "${CONFIRM:-Y}" =~ ^[Nn] ]]; then
   echo "已取消。"; exit 0
 fi
