@@ -7,10 +7,11 @@
 #   2. 创建 ~/workspace/<别名>/ 工作目录
 #   3. 自动配置 .gitconfig includeIf 条件
 #   4. 自动追加 ~/.ssh/config Host 配置
+#   5. 可选设为全局默认身份
 #
-# 用法: bash setup-identity.sh
+# 用法: zsh setup-identity.sh
 # ============================================================
-set -euo pipefail
+set -uo pipefail
 
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -54,7 +55,7 @@ if [[ -z "$GIT_EMAIL" ]]; then
 fi
 
 # SSH Host
-ask "请输入 SSH Host 地址（如 github.com、gitlab.alibaba-inc.com）："
+ask "请输入 SSH Host 地址（如 github.com、gitlab.example.com）："
 read -rp "  Host: " SSH_HOST
 if [[ -z "$SSH_HOST" ]]; then
   echo "错误：Host 不能为空"; exit 1
@@ -86,6 +87,12 @@ case "${KEY_CHOICE:-1}" in
 esac
 KEY_BITS="${KEY_BITS:-}"
 
+# 是否设为默认
+echo ""
+ask "是否将此身份设为全局默认？（在非 workspace 目录下使用）"
+read -rp "  设为默认 [y/N]: " SET_DEFAULT
+SET_DEFAULT="${SET_DEFAULT:-N}"
+
 # ============================================================
 # 确认
 # ============================================================
@@ -99,6 +106,7 @@ echo "  Host 别名:   $HOST_ALIAS"
 echo "  密钥类型:    $KEY_TYPE"
 echo "  密钥路径:    ~/.ssh/$ALIAS/id_$KEY_TYPE"
 echo "  工作目录:    ~/workspace/$ALIAS/"
+[[ "$SET_DEFAULT" =~ ^[Yy] ]] && echo "  全局默认:    ✓ 是"
 echo "──────────────────────────────"
 echo ""
 read -rp "确认配置？[Y/n] " CONFIRM
@@ -155,7 +163,6 @@ info "工作目录已创建: $WORK_DIR"
 # ============================================================
 GITCONFIG_IDENTITY="$HOME/.gitconfig-$ALIAS"
 
-# 写入身份配置文件
 cat > "$GITCONFIG_IDENTITY" <<EOF
 [user]
     name = $GIT_NAME
@@ -180,6 +187,39 @@ EOF
 fi
 
 # ============================================================
+# 5. 设为全局默认身份
+# ============================================================
+if [[ "$SET_DEFAULT" =~ ^[Yy] ]]; then
+  GITCONFIG_DEFAULT="$HOME/.gitconfig-default"
+
+  cat > "$GITCONFIG_DEFAULT" <<EOF
+[user]
+    name = $GIT_NAME
+    email = $GIT_EMAIL
+
+[core]
+    sshCommand = ssh -i $KEY_PATH -o IdentitiesOnly=yes
+EOF
+  info "已写入 $GITCONFIG_DEFAULT"
+
+  # 确保主 .gitconfig 中有 include 指向 default
+  if grep -q "path = $GITCONFIG_DEFAULT" "$GITCONFIG" 2>/dev/null; then
+    warn ".gitconfig 中已包含默认身份引用，跳过"
+  else
+    # 插入到文件开头（确保 includeIf 可以覆盖它）
+    TEMP_FILE=$(mktemp)
+    cat > "$TEMP_FILE" <<EOF
+[include]
+    path = $GITCONFIG_DEFAULT
+
+EOF
+    cat "$GITCONFIG" >> "$TEMP_FILE"
+    mv "$TEMP_FILE" "$GITCONFIG"
+    info "已将默认身份添加到 .gitconfig（includeIf 会在匹配目录中覆盖它）"
+  fi
+fi
+
+# ============================================================
 # 完成
 # ============================================================
 echo ""
@@ -195,3 +235,4 @@ echo "  后续操作："
 echo "    1. 将上面的公钥添加到 $SSH_HOST 的 SSH Keys 设置中"
 echo "    2. 测试连接: ssh -T git@$HOST_ALIAS"
 echo "    3. 在 $WORK_DIR 下 clone 项目，git 会自动使用对应身份"
+[[ "$SET_DEFAULT" =~ ^[Yy] ]] && echo "    4. 在任意目录下 git 操作默认使用此身份"
