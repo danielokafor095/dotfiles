@@ -9,7 +9,10 @@
 #   4. 自动追加 ~/.ssh/config Host 配置
 #   5. 可选设为全局默认身份
 #
-# 用法: zsh setup-identity.sh
+# 用法:
+#   zsh setup-identity.sh                # 交互式创建新身份
+#   zsh setup-identity.sh --set-default <别名>  # 切换默认身份到已有的别名
+#
 # ============================================================
 set -uo pipefail
 
@@ -25,6 +28,77 @@ ask() { echo -e "${CYAN}[?]${NC} $1"; }
 WORKSPACE_DIR="$HOME/workspace"
 SSH_DIR="$HOME/.ssh"
 GITCONFIG="$HOME/.gitconfig"
+GITCONFIG_DEFAULT="$HOME/.gitconfig-default"
+
+# ============================================================
+# 辅助函数：获取当前默认身份别名
+# ============================================================
+get_current_default() {
+  if [[ -f "$GITCONFIG_DEFAULT" ]]; then
+    # 从 sshCommand 中提取别名（路径格式: ~/.ssh/<别名>/id_xxx）
+    local ssh_path=$(grep "sshCommand" "$GITCONFIG_DEFAULT" 2>/dev/null | grep -oE '\.ssh/[^/]+/' | sed 's|\.ssh/||;s|/||')
+    if [[ -n "$ssh_path" ]]; then
+      echo "$ssh_path"
+      return 0
+    fi
+  fi
+  return 1
+}
+
+# ============================================================
+# 辅助函数：将指定别名设为默认
+# ============================================================
+apply_default() {
+  local alias_name="$1"
+  local identity_file="$HOME/.gitconfig-$alias_name"
+
+  if [[ ! -f "$identity_file" ]]; then
+    echo "错误：身份配置 $identity_file 不存在"; exit 1
+  fi
+
+  # 复制身份配置为 default
+  cp "$identity_file" "$GITCONFIG_DEFAULT"
+  info "已将 $alias_name 设为全局默认身份 → $GITCONFIG_DEFAULT"
+
+  # 确保主 .gitconfig 中有 include 指向 default
+  if grep -q "path = $GITCONFIG_DEFAULT" "$GITCONFIG" 2>/dev/null; then
+    info ".gitconfig 已包含默认身份引用"
+  else
+    local temp_file=$(mktemp)
+    cat > "$temp_file" <<EOF
+[include]
+    path = $GITCONFIG_DEFAULT
+
+EOF
+    cat "$GITCONFIG" >> "$temp_file"
+    mv "$temp_file" "$GITCONFIG"
+    info "已将默认身份添加到 .gitconfig 顶部"
+  fi
+}
+
+# ============================================================
+# 参数模式：--set-default <别名>
+# ============================================================
+if [[ "${1:-}" == "--set-default" ]]; then
+  if [[ -z "${2:-}" ]]; then
+    echo "用法: zsh setup-identity.sh --set-default <别名>"
+    echo ""
+    echo "可用的身份："
+    for f in "$HOME"/.gitconfig-*; do
+      [[ "$f" == *"-default" ]] && continue
+      local name="${f##*/.gitconfig-}"
+      local current_default=$(get_current_default)
+      if [[ "$name" == "$current_default" ]]; then
+        echo "  * $name （当前默认）"
+      else
+        echo "    $name"
+      fi
+    done
+    exit 1
+  fi
+  apply_default "$2"
+  exit 0
+fi
 
 # ============================================================
 # 交互式收集信息
@@ -89,9 +163,17 @@ KEY_BITS="${KEY_BITS:-}"
 
 # 是否设为默认
 echo ""
-ask "是否将此身份设为全局默认？（在非 workspace 目录下使用）"
-read -rp "  设为默认 [y/N]: " SET_DEFAULT
-SET_DEFAULT="${SET_DEFAULT:-N}"
+CURRENT_DEFAULT=$(get_current_default)
+if [[ -n "$CURRENT_DEFAULT" ]]; then
+  ask "当前全局默认身份: $CURRENT_DEFAULT"
+  ask "是否将 $ALIAS 切换为新的全局默认？"
+  read -rp "  切换默认 [y/N]: " SET_DEFAULT
+  SET_DEFAULT="${SET_DEFAULT:-N}"
+else
+  ask "尚未配置全局默认身份，是否将 $ALIAS 设为默认？"
+  read -rp "  设为默认 [Y/n]: " SET_DEFAULT
+  SET_DEFAULT="${SET_DEFAULT:-Y}"
+fi
 
 # ============================================================
 # 确认
@@ -106,7 +188,11 @@ echo "  Host 别名:   $HOST_ALIAS"
 echo "  密钥类型:    $KEY_TYPE"
 echo "  密钥路径:    ~/.ssh/$ALIAS/id_$KEY_TYPE"
 echo "  工作目录:    ~/workspace/$ALIAS/"
-[[ "$SET_DEFAULT" =~ ^[Yy] ]] && echo "  全局默认:    ✓ 是"
+if [[ "$SET_DEFAULT" =~ ^[Yy] ]]; then
+  echo "  全局默认:    ✓ 是（替换 ${CURRENT_DEFAULT:-无}）"
+else
+  echo "  全局默认:    ✗ 否（保持 ${CURRENT_DEFAULT:-无}）"
+fi
 echo "──────────────────────────────"
 echo ""
 read -rp "确认配置？[Y/n] " CONFIRM
@@ -190,33 +276,7 @@ fi
 # 5. 设为全局默认身份
 # ============================================================
 if [[ "$SET_DEFAULT" =~ ^[Yy] ]]; then
-  GITCONFIG_DEFAULT="$HOME/.gitconfig-default"
-
-  cat > "$GITCONFIG_DEFAULT" <<EOF
-[user]
-    name = $GIT_NAME
-    email = $GIT_EMAIL
-
-[core]
-    sshCommand = ssh -i $KEY_PATH -o IdentitiesOnly=yes
-EOF
-  info "已写入 $GITCONFIG_DEFAULT"
-
-  # 确保主 .gitconfig 中有 include 指向 default
-  if grep -q "path = $GITCONFIG_DEFAULT" "$GITCONFIG" 2>/dev/null; then
-    warn ".gitconfig 中已包含默认身份引用，跳过"
-  else
-    # 插入到文件开头（确保 includeIf 可以覆盖它）
-    TEMP_FILE=$(mktemp)
-    cat > "$TEMP_FILE" <<EOF
-[include]
-    path = $GITCONFIG_DEFAULT
-
-EOF
-    cat "$GITCONFIG" >> "$TEMP_FILE"
-    mv "$TEMP_FILE" "$GITCONFIG"
-    info "已将默认身份添加到 .gitconfig（includeIf 会在匹配目录中覆盖它）"
-  fi
+  apply_default "$ALIAS"
 fi
 
 # ============================================================
@@ -236,3 +296,6 @@ echo "    1. 将上面的公钥添加到 $SSH_HOST 的 SSH Keys 设置中"
 echo "    2. 测试连接: ssh -T git@$HOST_ALIAS"
 echo "    3. 在 $WORK_DIR 下 clone 项目，git 会自动使用对应身份"
 [[ "$SET_DEFAULT" =~ ^[Yy] ]] && echo "    4. 在任意目录下 git 操作默认使用此身份"
+echo ""
+echo "  切换默认身份："
+echo "    zsh $(realpath $0) --set-default <别名>"
