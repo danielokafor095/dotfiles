@@ -10,8 +10,9 @@
 #   5. 可选设为全局默认身份
 #
 # 用法:
-#   zsh setup-identity.sh                # 交互式创建新身份
-#   zsh setup-identity.sh --set-default <别名>  # 切换默认身份到已有的别名
+#   ./setup-identity.sh                       # 交互式创建新身份
+#   ./setup-identity.sh --set-default <别名>  # 切换默认身份到已有的别名
+#   ./setup-identity.sh --set-default         # 列出所有身份及当前默认
 #
 # ============================================================
 set -uo pipefail
@@ -81,7 +82,7 @@ EOF
 # ============================================================
 if [[ "${1:-}" == "--set-default" ]]; then
   if [[ -z "${2:-}" ]]; then
-    echo "用法: zsh setup-identity.sh --set-default <别名>"
+    echo "用法: ./setup-identity.sh --set-default <别名>"
     echo ""
     echo "可用的身份："
     for f in "$HOME"/.gitconfig-*; do
@@ -298,4 +299,4 @@ echo "    3. 在 $WORK_DIR 下 clone 项目，git 会自动使用对应身份"
 [[ "$SET_DEFAULT" =~ ^[Yy] ]] && echo "    4. 在任意目录下 git 操作默认使用此身份"
 echo ""
 echo "  切换默认身份："
-echo "    zsh $(realpath $0) --set-default <别名>"
+echo "    $(realpath $0) --set-default <别名>"
