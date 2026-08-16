@@ -153,8 +153,6 @@ mkdir -p "$GHOSTTY_CONFIG_DIR"
 copy_file "$DOTFILES_DIR/ghostty/config" "$GHOSTTY_CONFIG_DIR/config.ghostty"
 info "Ghostty 终端配置已复制"
 
-
-
 # ============================================================
 # 12. Yazi 文件管理器配置
 # ============================================================
