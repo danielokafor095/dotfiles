@@ -82,7 +82,7 @@ alias ls="eza --group-directories-first"
 alias ll="eza -la --group-directories-first --git"
 alias lt="eza -la --tree --level=2"
 alias l="eza -la"
-alias cat="bat --paging=never"
+alias cat="bat --paging=never -p"
 
 # ============================================================
 # Aliases — 个人 & 工作
