@@ -175,7 +175,7 @@
     "https://ui.shadcn.com": true,
     "https://www.schemastore.org/": true,
   },
-  "terminal.external.osxExec": "Ghostty.app",
+  "terminal.external.osxExec": "Warp.app",
   "terminal.integrated.initialHint": false,
   "workbench.startupEditor": "none",
   "workbench.secondarySideBar.defaultVisibility": "hidden",

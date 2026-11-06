@@ -149,29 +149,7 @@ ln -s "$HOME/AGENTS.md" "$HOME/CLAUDE.md"
 info "Agents 配置已部署，CLAUDE.md 已链接到 AGENTS.md"
 
 # ============================================================
-# 11. Ghostty 终端配置
-# ============================================================
-GHOSTTY_CONFIG_DIR="$HOME/Library/Application Support/com.mitchellh.ghostty"
-mkdir -p "$GHOSTTY_CONFIG_DIR"
-copy_file "$DOTFILES_DIR/ghostty/config" "$GHOSTTY_CONFIG_DIR/config.ghostty"
-info "Ghostty 终端配置已复制"
-
-# ============================================================
-# 12. Yazi 文件管理器配置
-# ============================================================
-mkdir -p "$HOME/.config/yazi"
-copy_file "$DOTFILES_DIR/yazi/yazi.toml" "$HOME/.config/yazi/yazi.toml"
-info "Yazi 配置已复制"
-
-# ============================================================
-# 13. Zellij 终端复用配置
-# ============================================================
-mkdir -p "$HOME/.config/zellij"
-copy_file "$DOTFILES_DIR/zellij/config.kdl" "$HOME/.config/zellij/config.kdl"
-info "Zellij 配置已复制"
-
-# ============================================================
-# 14. 密钥文件
+# 11. 密钥文件
 # ============================================================
 if [[ ! -f "$HOME/.zsh_secrets" ]]; then
   if [[ -f "$DOTFILES_DIR/zsh/.zsh_secrets" ]]; then

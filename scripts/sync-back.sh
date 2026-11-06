@@ -39,9 +39,6 @@ FILE_MAP=(
   "$HOME/.claude/settings.json"                                     "$DOTFILES_DIR/claude/settings.json"
   # 本机 CLAUDE.md 是指向 AGENTS.md 的软链，只同步权威文件
   "$HOME/AGENTS.md"                                                 "$DOTFILES_DIR/agents/AGENTS.md"
-  "$HOME/Library/Application Support/com.mitchellh.ghostty/config.ghostty"  "$DOTFILES_DIR/ghostty/config"
-  "$HOME/.config/yazi/yazi.toml"                                    "$DOTFILES_DIR/yazi/yazi.toml"
-  "$HOME/.config/zellij/config.kdl"                                 "$DOTFILES_DIR/zellij/config.kdl"
 )
 
 # ============================================================

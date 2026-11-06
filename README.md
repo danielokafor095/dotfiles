@@ -26,10 +26,7 @@ cd ~/dotfiles
 | 8 | 复制 .zshrc + .p10k.zsh |
 | 9 | 复制 .gitconfig |
 | 10 | 复制 Agents 配置（AGENTS.md + CLAUDE.md 软链） |
-| 11 | 复制 Ghostty 终端配置 |
-| 12 | 复制 Yazi 文件管理器配置 |
-| 13 | 复制 Zellij 终端复用配置 |
-| 14 | 创建 ~/.zsh_secrets 密钥文件 |
+| 11 | 创建 ~/.zsh_secrets 密钥文件 |
 
 ## Git 多身份 + SSH Key 配置
 
@@ -64,14 +61,11 @@ dotfiles/
 ├── zsh/.zshrc                    # Zsh 主配置
 ├── zsh/.p10k.zsh                 # Powerlevel10k 主题
 ├── zsh/.zsh_secrets.example      # 密钥模板
-├── ghostty/config                # Ghostty 终端配置
 ├── agents/AGENTS.md              # 全局 Agent 指令（权威源）
 ├── claude/settings.json          # Claude Code 设置
 ├── vscode/settings.json          # VSCode / Cursor 编辑器设置
 ├── vscode/keybindings.json       # VSCode / Cursor 快捷键
 ├── vscode/extensions.json        # VSCode 插件清单
-├── yazi/yazi.toml                # Yazi 文件管理器
-├── zellij/config.kdl             # Zellij 终端复用
 ├── .gitignore
 └── README.md
 ```
@@ -89,10 +83,10 @@ vim ~/.zsh_secrets
 ## 包含的软件
 
 ### CLI 工具
-bat, btop, eza, fd, ffmpeg, fnm, fzf, git, git-delta, go, lazygit, llama.cpp, pnpm, ripgrep, tmux, uv, wget, xcodegen, yazi, zellij, zoxide
+bat, btop, eza, fd, ffmpeg, fnm, fzf, git, git-delta, go, lazygit, llama.cpp, pnpm, ripgrep, tmux, uv, wget, xcodegen, zoxide
 
 ### GUI 应用
-Ghostty, Cursor, VS Code, Docker Desktop, TablePlus, Bruno, iStat Menus, AppCleaner, Macs Fan Control, itsycal
+Warp, Cursor, VS Code, Docker Desktop, TablePlus, Bruno, iStat Menus, AppCleaner, Macs Fan Control, itsycal
 
 ### Shell 环境
 - Zsh + Powerlevel10k + Zinit
@@ -118,13 +112,10 @@ JetBrains Mono Nerd, Maple Mono NF, Meslo LG Nerd
 | `Brewfile` | 增删软件包 |
 | `zsh/.zshrc` | Shell 配置 |
 | `zsh/.p10k.zsh` | 终端主题（或 `p10k configure`） |
-| `ghostty/config` | 终端模拟器 |
 | `vscode/settings.json` | 编辑器设置 |
 | `vscode/keybindings.json` | 编辑器快捷键 |
 | `vscode/extensions.json` | 插件清单 |
 | `git/.gitconfig` | Git 全局设置 |
-| `yazi/yazi.toml` | 文件管理器 |
-| `zellij/config.kdl` | 终端复用 |
 | `agents/AGENTS.md` | 全局 Agent 指令（本机 `~/CLAUDE.md` 为其软链） |
 
 ## 同步更新

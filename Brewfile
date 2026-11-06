@@ -27,8 +27,6 @@ brew "tmux"           # 终端复用
 brew "uv"             # Python 包管理器
 brew "wget"           # 下载工具
 brew "xcodegen"       # Xcode 项目生成
-brew "yazi"           # 终端文件管理器
-brew "zellij"         # 终端复用（Rust）
 brew "zoxide"         # cd 替代，智能跳转
 
 # 第三方 Tap 的包
@@ -44,13 +42,13 @@ cask "codex"                         # AI 编码
 cask "codexbar"                      # 菜单栏工具
 cask "cursor"                        # AI 编辑器
 cask "docker-desktop"                # Docker
-cask "ghostty"                       # 终端模拟器
 cask "istat-menus@6"                 # 系统监控菜单栏
 cask "itsycal"                       # 菜单栏日历
 cask "macs-fan-control"              # 风扇控制
 cask "sfm"                           # 文件管理
 cask "tableplus"                     # 数据库客户端
 cask "visual-studio-code"            # 编辑器
+cask "warp"                          # 终端模拟器
 
 # 字体
 cask "font-jetbrains-mono-nerd-font" # JetBrains Mono Nerd
