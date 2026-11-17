@@ -3,7 +3,7 @@
 set -euo pipefail
 trap 'printf "启动未完成（第 %s 行），请处理上面的错误后重新运行。\n" "$LINENO" >&2' ERR
 
-REPO_URL="https://github.com/ovislab/dotfiles.git"
+REPO_URL="https://github.com/danielokafor095/dotfiles.git"
 BRANCH="main"
 DOTFILES_DIR="${DOTFILES_BOOTSTRAP_DIR:-$HOME/dotfiles}"
 
@@ -42,8 +42,8 @@ if [[ -e "$DOTFILES_DIR" || -L "$DOTFILES_DIR" ]]; then
   [[ "$repo_root" == "$actual_dir" ]] || die "目标目录不是独立的 Git 仓库：$DOTFILES_DIR"
   origin=$(git -C "$DOTFILES_DIR" remote get-url origin)
   case "$origin" in
-    https://github.com/ovislab/dotfiles|https://github.com/ovislab/dotfiles.git|git@github.com:ovislab/dotfiles.git) ;;
-    *) die "目标目录的 origin 不属于 ovislab/dotfiles，请先核对：$DOTFILES_DIR" ;;
+    https://github.com/danielokafor095/dotfiles|https://github.com/danielokafor095/dotfiles.git|git@github.com:danielokafor095/dotfiles.git) ;;
+    *) die "目标目录的 origin 不属于 danielokafor095/dotfiles，请先核对：$DOTFILES_DIR" ;;
   esac
   working_changes=$(git -C "$DOTFILES_DIR" status --porcelain)
   [[ -z "$working_changes" ]] || die "仓库有未提交改动，请先处理：$DOTFILES_DIR"

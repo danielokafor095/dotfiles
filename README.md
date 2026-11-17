@@ -7,7 +7,7 @@ macOS 开发环境一键配置，包含 Shell、终端、编辑器、CLI 工具�
 新 Mac 打开 Terminal.app，执行以下命令（需要仓库已公开，且 `bootstrap.sh` 已推送到 `main`）：
 
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/ovislab/dotfiles/main/bootstrap.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/danielokafor095/dotfiles/main/bootstrap.sh)"
 ```
 
 入口兼容 macOS 自带的 Bash 3.2，不需要预先安装 Git、Homebrew、GitHub CLI 或配置 SSH。
@@ -21,7 +21,7 @@ macOS 开发环境一键配置，包含 Shell、终端、编辑器、CLI 工具�
 也可以在命令行工具已安装后手动克隆，或从已有仓库直接运行：
 
 ```zsh
-git clone https://github.com/ovislab/dotfiles.git ~/dotfiles
+git clone https://github.com/danielokafor095/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 ./setup.sh
 ```

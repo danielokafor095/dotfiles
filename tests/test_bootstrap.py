@@ -56,7 +56,7 @@ elif name == "git":
     elif args[0] == "rev-parse":
         print(workdir.resolve())
     elif args[0] == "remote":
-        print(os.environ.get("BOOTSTRAP_TEST_ORIGIN", "git@github.com:ovislab/dotfiles.git"))
+        print(os.environ.get("BOOTSTRAP_TEST_ORIGIN", "git@github.com:danielokafor095/dotfiles.git"))
     elif args[0] == "status":
         print(os.environ.get("BOOTSTRAP_TEST_CHANGES", ""), end="")
     elif args[0] == "symbolic-ref":
@@ -129,7 +129,7 @@ class BootstrapTests(ScriptFixture):
         self.assertTrue(self.calls("sleep"))
         clones = [args for args in self.calls("git") if args[0] == "clone"]
         self.assertEqual(len(clones), 1)
-        self.assertIn("https://github.com/ovislab/dotfiles.git", clones[0])
+        self.assertIn("https://github.com/danielokafor095/dotfiles.git", clones[0])
         self.assertEqual(self.calls("zsh"), [[str(self.root / "dotfiles/setup.sh")]])
         self.assertEqual(self.calls("gh"), [])
 
@@ -137,7 +137,7 @@ class BootstrapTests(ScriptFixture):
         target = self.existing_repo()
         self.run_bootstrap()
         self.assertIn(
-            ["-C", str(target), "pull", "--ff-only", "https://github.com/ovislab/dotfiles.git", "main"],
+            ["-C", str(target), "pull", "--ff-only", "https://github.com/danielokafor095/dotfiles.git", "main"],
             self.calls("git"),
         )
         self.assertFalse(any("set-url" in args for args in self.calls("git")))
