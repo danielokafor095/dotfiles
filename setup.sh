@@ -139,14 +139,13 @@ info "工作目录 ~/Workspace 已就绪（用 setup-identity.sh 添加身份）
 # ============================================================
 # 10. Agents 配置
 # ============================================================
-CLAUDE_DIR="$HOME/.claude"
+CLAUDE_DIR="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
 mkdir -p "$CLAUDE_DIR"
 copy_file "$DOTFILES_DIR/claude/settings.json" "$CLAUDE_DIR/settings.json"
-copy_file "$DOTFILES_DIR/agents/AGENTS.md" "$HOME/AGENTS.md"
-# 创建 CLAUDE.md -> AGENTS.md 的符号链接，两个路径指向同一文件
-rm -f "$HOME/CLAUDE.md"
-ln -s "$HOME/AGENTS.md" "$HOME/CLAUDE.md"
-info "Agents 配置已部署，CLAUDE.md 已链接到 AGENTS.md"
+if ! zsh "$DOTFILES_DIR/scripts/setup-agents.sh"; then
+  warn "Agents 指令部署或检查未通过，请运行 scripts/setup-agents.sh --check 查看"
+  exit 1
+fi
 
 # ============================================================
 # 11. 密钥文件

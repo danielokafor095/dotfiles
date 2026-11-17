@@ -36,9 +36,8 @@ FILE_MAP=(
   "$HOME/.zshrc"                                                    "$DOTFILES_DIR/zsh/.zshrc"
   "$HOME/.p10k.zsh"                                                 "$DOTFILES_DIR/zsh/.p10k.zsh"
   "$HOME/.gitconfig"                                                "$DOTFILES_DIR/git/.gitconfig"
-  "$HOME/.claude/settings.json"                                     "$DOTFILES_DIR/claude/settings.json"
-  # 本机 CLAUDE.md 是指向 AGENTS.md 的软链，只同步权威文件
-  "$HOME/AGENTS.md"                                                 "$DOTFILES_DIR/agents/AGENTS.md"
+  "${CLAUDE_CONFIG_DIR:-$HOME/.claude}/settings.json"                 "$DOTFILES_DIR/claude/settings.json"
+  # Agent 指令直接软链接到 agents/AGENTS.md，无需反向复制。
 )
 
 # ============================================================

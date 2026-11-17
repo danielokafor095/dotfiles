@@ -25,7 +25,7 @@ cd ~/dotfiles
 | 7 | 通过 fnm 安装 Node.js v24 |
 | 8 | 复制 .zshrc + .p10k.zsh |
 | 9 | 复制 .gitconfig |
-| 10 | 复制 Agents 配置（AGENTS.md + CLAUDE.md 软链） |
+| 10 | 复制 Claude 设置，并将 Agent 全局指令软链接到仓库原稿 |
 | 11 | 创建 ~/.zsh_secrets 密钥文件 |
 
 ## Git 多身份 + SSH Key 配置
@@ -55,6 +55,7 @@ cd ~/dotfiles
 dotfiles/
 ├── setup.sh                      # 一键安装入口
 ├── scripts/setup-identity.sh     # 交互式 SSH + Git 身份配置
+├── scripts/setup-agents.sh       # Agent 指令部署 / 检查，可单独运行
 ├── scripts/sync-back.sh          # 反向同步（本机 → 仓库）
 ├── Brewfile                      # Homebrew 包清单
 ├── git/.gitconfig                # Git 全局配置
@@ -62,6 +63,8 @@ dotfiles/
 ├── zsh/.p10k.zsh                 # Powerlevel10k 主题
 ├── zsh/.zsh_secrets.example      # 密钥模板
 ├── agents/AGENTS.md              # 全局 Agent 指令（权威源）
+├── agents/README.md              # 各工具入口、手动适配和生效检查
+├── agents/CHAT-INSTRUCTIONS.md   # ChatGPT / Gemini 网页聊天精简版
 ├── claude/settings.json          # Claude Code 设置
 ├── vscode/settings.json          # VSCode / Cursor 编辑器设置
 ├── vscode/keybindings.json       # VSCode / Cursor 快捷键
@@ -116,11 +119,31 @@ JetBrains Mono Nerd, Maple Mono NF, Meslo LG Nerd
 | `vscode/keybindings.json` | 编辑器快捷键 |
 | `vscode/extensions.json` | 插件清单 |
 | `git/.gitconfig` | Git 全局设置 |
-| `agents/AGENTS.md` | 全局 Agent 指令（本机 `~/CLAUDE.md` 为其软链） |
+| `agents/AGENTS.md` | 全局 Agent 指令原稿，各本机入口直接软链接到这里 |
+
+## Agent 指令
+
+首次安装由 `setup.sh` 部署。现有电脑只更新 Agent 指令时运行：
+
+```zsh
+./scripts/setup-agents.sh
+./scripts/setup-agents.sh --check
+```
+
+Codex、Claude Code、Gemini CLI 和 Antigravity 共用 `agents/AGENTS.md`。
+`~/AGENTS.md` 保留为兼容入口，各工具的全局入口直接链接到仓库，避免多份副本。
+替换的旧文件和软链接保存在 `~/.local/state/dotfiles/agents-backups/`。
+修改原稿即更新全部链接内容；已运行的会话需按工具要求重新加载。
+仓库必须保留在部署时的位置，移动仓库后需重新运行部署脚本。
+
+普通 ChatGPT 和 Gemini 聊天需手动填写应用中的自定义指令，不能通过本机软链接自动设置。
+各入口、官方依据和实际加载检查见 [Agent 配置说明](agents/README.md)。
 
 ## 同步更新
 
 当本机配置有修改，想同步回仓库时：
+
+Agent 指令直接修改仓库原稿，不参与反向同步；网页聊天精简版需同时检查是否仍与原稿一致。
 
 ```zsh
 cd ~/dotfiles
@@ -132,5 +155,5 @@ cd ~/dotfiles
 确认后提交：
 
 ```zsh
-git add -A && git commit -m "update" && git push
+git add -A && git commit -m "chore: update dotfiles" && git push
 ```
