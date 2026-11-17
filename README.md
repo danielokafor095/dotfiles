@@ -4,11 +4,32 @@ macOS 开发环境一键配置，包含 Shell、终端、编辑器、CLI 工具�
 
 ## 快速开始
 
+新 Mac 打开 Terminal.app，执行以下命令（需要仓库已公开，且 `bootstrap.sh` 已推送到 `main`）：
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/ovislab/dotfiles/main/bootstrap.sh)"
+```
+
+入口兼容 macOS 自带的 Bash 3.2，不需要预先安装 Git、Homebrew、GitHub CLI 或配置 SSH。
+它先检查 Apple 命令行工具，必要时触发系统安装弹窗，等待完成后通过 HTTPS 克隆仓库，再执行 `setup.sh`。
+系统安装确认、管理员密码和最后的 GitHub 浏览器授权仍需本人完成。
+
+重复运行时，如果 `~/dotfiles` 是本仓库的干净 `main` 分支，入口会通过 HTTPS 快进更新；
+有未提交改动、分支不符或目标属于其他仓库时停止，不自动覆盖或切换。
+已有 SSH origin 会保留，启动更新本身使用 HTTPS。
+
+也可以在命令行工具已安装后手动克隆，或从已有仓库直接运行：
+
 ```zsh
-git clone git@github.com:YOUR_USERNAME/dotfiles.git ~/dotfiles
+git clone https://github.com/ovislab/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 ./setup.sh
 ```
+
+安装必要步骤失败会中止，不会显示“环境配置完成”。修复错误后可以重新运行入口。
+GitHub 授权失败时，软件与文件配置可能已完成，可单独重试 `./scripts/setup-github.sh`。
+Git 配置部署后会重新设置 `gh` 凭据助手，避免配置覆盖导致 HTTPS 认证丢失。
+SSH 和多账号身份由后面的 `setup-identity.sh` 按需配置，不是首次安装的前提。
 
 ## 安装流程
 
@@ -27,6 +48,7 @@ cd ~/dotfiles
 | 9 | 复制 .gitconfig |
 | 10 | 复制 Claude 设置，并将 Agent 全局指令软链接到仓库原稿 |
 | 11 | 创建 ~/.zsh_secrets 密钥文件 |
+| 12 | 复用已有 GitHub 登录或启动浏览器授权，配置 HTTPS 凭据助手 |
 
 ## Git 多身份 + SSH Key 配置
 
@@ -53,7 +75,9 @@ cd ~/dotfiles
 
 ```
 dotfiles/
+├── bootstrap.sh                  # 新 Mac 在线启动入口（系统 Bash）
 ├── setup.sh                      # 一键安装入口
+├── scripts/setup-github.sh       # GitHub 登录及 HTTPS 凭据配置，可单独重试
 ├── scripts/setup-identity.sh     # 交互式 SSH + Git 身份配置
 ├── scripts/setup-agents.sh       # Agent 指令部署 / 检查，可单独运行
 ├── scripts/sync-back.sh          # 反向同步（本机 → 仓库）
@@ -157,3 +181,18 @@ cd ~/dotfiles
 ```zsh
 git add -A && git commit -m "chore: update dotfiles" && git push
 ```
+
+## 脚本检查
+
+```zsh
+bash -n bootstrap.sh scripts/setup-github.sh
+zsh -n setup.sh scripts/setup-agents.sh scripts/sync-back.sh
+python3 -B -m unittest discover -s tests -v
+```
+
+启动与 GitHub 登录测试使用替身命令和临时目录，不安装软件或修改真实用户配置。
+`DOTFILES_BOOTSTRAP_DIR` 可指定仓库落地目录，默认 `~/dotfiles`；新机通常无需设置。
+
+安装流程参考：[Apple 命令行工具](https://developer.apple.com/documentation/xcode/installing-the-command-line-tools.md)、
+[Homebrew 安装](https://docs.brew.sh/Installation)、[GitHub 浏览器登录](https://cli.github.com/manual/gh_auth_login)、
+[GitHub 凭据助手](https://cli.github.com/manual/gh_auth_setup-git)。
